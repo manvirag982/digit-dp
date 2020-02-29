@@ -1,0 +1,93 @@
+/*Count of integers from the range [0, N] whose digit sum is a multiple of K
+Given two integers N and K, the task is to calculate the number of integers in the range [0, N] whose digit sum is a multiple of K. The answer could be large, so print the answer modulo 109 +7.
+
+Examples:
+
+Input: N = 10, K = 5
+Output: 2
+0 and 5 are the only possible integers.
+
+
+
+Input: N = 30, K = 4
+Output: 7*/
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long int
+#define ld long double
+#define w(x) int x; cin>>x; while(x--)
+#define fr(i,n)   for(int i=0;i<n;i++)
+#define frr(i,n)  for(int i=1;i<=n;i++)
+#define vi vector<int>
+#define mod 1000000007
+#define pi pair<int,int>
+#define f first
+// #define s second
+#define pb push_back
+#define mk make_pair
+#define all(x) x.begin(),x.end() 
+#define i32 int32_t
+#define i16 int16_t
+#define fastio   ios_base::sync_with_stdio(false);cin.tie(NULL);
+const int MAX =1e5;
+int dp[20][163][2];
+string s;
+int k;
+// tight == 0 restricted
+// tight==1 non restricted
+int res(int ix,int sum,int tight){
+
+  if(ix==s.size())
+  {
+      if(sum%k==0)
+        return 1;
+      else
+        return 0;
+
+  }
+
+  int xx=dp[ix][sum][tight];
+  if(xx!=-1)
+    return xx;
+ int re=0;
+
+  for(char i='0';i<='9';i++){
+     
+    if(i>s[ix]&& !tight)
+      break;
+
+    bool temp=false;  // take restricted
+    
+    if(i<s[ix])
+      temp=true; // non rest.
+    else if(tight)
+      temp=true;
+
+    re+=res(ix+1,sum+(i-'0'),temp);
+
+    
+  }
+
+  return dp[ix][sum][tight]=re;
+
+
+
+}
+i32 main(){
+
+  // time_t start,end;     // time(&start);// time(&end);
+   
+    for(int i=0;i<20;i++)
+      for(int j=0;j<163;j++)
+        for(int k=0;k<2;k++)
+          dp[i][j][k]=-1;
+    cin>>s>>k;
+   cout<<res(0,0,0);
+
+  //   double time_taken = double(end - start);    // cout << "Time taken by program is : " << fixed  //      << time_taken << setprecision(5); // cout << " sec " << endl; 
+
+  return 0;
+}
+     
